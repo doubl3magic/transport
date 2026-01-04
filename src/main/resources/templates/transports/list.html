@@ -15,7 +15,7 @@
             <th>Price</th>
         </tr>
         <tr th:each="t : ${transports}">
-            <td th:text="${t.destination}"></td>
+            <td th:text="${t.endLocation}"></td>
             <td th:text="${t.price}"></td>
         </tr>
     </table>

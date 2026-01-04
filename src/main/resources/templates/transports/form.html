@@ -1,36 +1,77 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-
+<head>
+    <title>Transport Form</title>
+</head>
 <body>
+    <h1>Create Transport</h1>
+    
+<form th:action="@{/transports}" th:object="${transport}" method="post">
 
-    <h2>Transport</h2>
+    <label>Start Location:</label>
+    <input type="text" th:field="*{startLocation}" required />
+    <br />
 
-    <form th:action="@{/transports}" th:object="${transport}" method="post">
-        Destination: <input th:field="*{destination}" />
-        Price: <input th:field="*{price}" />
+    <label>End Location:</label>
+    <input type="text" th:field="*{endLocation}" required />
+    <br />
 
-        Client:
-        <select th:field="*{client}">
-            <option th:each="c : ${clients}" th:value="${c}" th:text="${c.name}">
-            </option>
-        </select>
+    <label>Departure Date:</label>
+    <input type="date" th:field="*{departureDate}" required />
+    <br />
 
-        Employee:
-        <select th:field="*{employee}">
-            <option th:each="e : ${employees}" th:value="${e}" th:text="${e.name}">
-            </option>
-        </select>
+    <label>Arrival Date:</label>
+    <input type="date" th:field="*{arrivalDate}" required />
+    <br />
 
-        Vehicle:
-        <select th:field="*{vehicle}">
-            <option th:each="v : ${vehicles}" th:value="${v}" th:text="${v.type}">
-            </option>
-        </select>
+    <label>Cargo Type:</label>
+    <select th:field="*{cargoType}" required>
+        <option value="">-- Select Cargo Type --</option>
+        <option th:each="cargo : ${T(com.transport.transport.model.enums.CargoType).values()}" th:value="${cargo}"
+            th:text="${cargo}">
+        </option>
+    </select>
+    <br />
 
-        <button type="submit">Save</button>
-    </form>
+    <label>Cargo Weight (kg):</label>
+    <input type="number" step="0.01" th:field="*{cargoWeight}" />
+    <br />
 
-    <a href="/transports">Back</a>
+    <label>Price:</label>
+    <input type="number" step="0.01" th:field="*{price}" required min="0.01" />
+    <br />
+
+    <label>Driver:</label>
+    <select th:field="*{driver}" required>
+        <option value="">-- Select Driver --</option>
+        <option th:each="emp : ${employees}" th:value="${emp.id}" th:text="${emp.name}">
+        </option>
+    </select>
+    <br />
+
+    <label>Vehicle:</label>
+    <select th:field="*{vehicle}" required>
+        <option value="">-- Select Vehicle --</option>
+        <option th:each="veh : ${vehicles}" th:value="${veh.id}" th:text="${veh.registrationNumber}">
+        </option>
+    </select>
+    <br />
+
+    <label>Client:</label>
+    <select th:field="*{client}" required>
+        <option value="">-- Select Client --</option>
+        <option th:each="cli : ${clients}" th:value="${cli.id}" th:text="${cli.name}">
+        </option>
+    </select>
+    <br />
+
+    <label>
+        <input type="checkbox" th:field="*{paid}" />
+        Paid
+    </label>
+    <br />
+
+    <button type="submit">Save</button>
+</form>
 </body>
-
 </html>
