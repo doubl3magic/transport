@@ -5,11 +5,37 @@
 
     <h2>Client</h2>
 
-    <form th:action="@{/clients}" th:object="${client}" method="post">
-        <input type="hidden" th:field="*{id}" />
-        Name: <input th:field="*{name}" />
-        <button type="submit">Save</button>
-    </form>
+        <form th:action="@{/clients}" th:object="${client}" method="post">
+
+            <label>Name:</label>
+            <input type="text" th:field="*{name}" required />
+            <br />
+
+            <label>Phone:</label>
+            <input type="text" th:field="*{phone}" />
+            <br />
+
+            <label>Email:</label>
+            <input type="email" th:field="*{email}" />
+            <br />
+
+            <label>Company:</label>
+            <select th:field="*{company}" required>
+                <option value="">-- Select Company --</option>
+                <option th:each="comp : ${companies}" th:value="${comp.id}" th:text="${comp.name}">
+                </option>
+            </select>
+            <br />
+
+            <label>
+                <input type="checkbox" th:field="*{paid}" />
+                Paid
+            </label>
+            <br />
+
+            <button type="submit">Save</button>
+        </form>
+
 
     <a href="/clients">Back</a>
 </body>

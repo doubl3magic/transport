@@ -1,27 +1,42 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 
-<body>
+<head>
+    <title>Employee Form</title>
+</head>
 
-    <h2>Employee</h2>
+<body>
+    <h1>Create Employee</h1>
 
     <form th:action="@{/employees}" th:object="${employee}" method="post">
-        Name: <input th:field="*{name}" />
-        Salary: <input th:field="*{salary}" />
 
-        Qualification:
-        <input th:field="*{qualification}" />
+        <label>Name:</label>
+        <input type="text" th:field="*{name}" required />
+        <br />
 
-        Company:
-        <select th:field="*{company}">
-            <option th:each="c : ${companies}" th:value="${c}" th:text="${c.name}">
+        <label>Salary:</label>
+        <input type="number" step="0.01" th:field="*{salary}" required />
+        <br />
+
+        <label>Company:</label>
+        <select th:field="*{company}" required>
+            <option value="">-- Select Company --</option>
+            <option th:each="comp : ${companies}" th:value="${comp.id}" th:text="${comp.id}">
             </option>
         </select>
+        <br />
+
+        <label>Qualification:</label>
+        <select th:field="*{qualification}" required>
+            <option value="">-- Select Qualification --</option>
+            <option th:each="qual : ${T(com.transport.transport.model.enums.Qualification).values()}" th:value="${qual}"
+                th:text="${qual}">
+            </option>
+        </select>
+        <br />
 
         <button type="submit">Save</button>
     </form>
-
-    <a href="/employees">Back</a>
 </body>
 
 </html>

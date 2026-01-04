@@ -2,7 +2,7 @@ package com.transport.transport.controller;
 
 import com.transport.transport.model.Client;
 import com.transport.transport.service.ClientService;
-
+import com.transport.transport.service.CompanyService;
 import org.springframework.ui.Model;
 
 import org.springframework.stereotype.Controller;
@@ -12,10 +12,13 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/clients")
 public class ClientController {
 
+    private final CompanyService companyService;
+
     private final ClientService clientService;
 
-    public ClientController(ClientService clientService) {
+    public ClientController(ClientService clientService, CompanyService companyService) {
         this.clientService = clientService;
+        this.companyService = companyService;
     }
 
     @GetMapping
@@ -27,6 +30,7 @@ public class ClientController {
     @GetMapping("/new")
     public String createForm(Model model) {
         model.addAttribute("client", new Client());
+        model.addAttribute("companies", companyService.findAll());
         return "clients/form";
     }
 
