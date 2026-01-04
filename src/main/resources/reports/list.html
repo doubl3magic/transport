@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<body>
+
+    <h2>Reports</h2>
+
+    <p>Total transports: <span th:text="${totalTransports}"></span></p>
+    <p>Total income: <span th:text="${totalIncome}"></span></p>
+
+    <ul>
+        <li th:each="e : ${driverStats}">
+            <span th:text="${e.key.name}"></span> :
+            <span th:text="${e.value}"></span>
+        </li>
+    </ul>
+
+    <form action="/reports/period">
+        Start: <input name="start" type="date" />
+        End: <input name="end" type="date" />
+        <button type="submit">Check</button>
+    </form>
+
+    <a href="/">Home</a>
+</body>
+
+</html>

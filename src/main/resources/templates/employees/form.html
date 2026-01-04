@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<body>
+
+    <h2>Employee</h2>
+
+    <form th:action="@{/employees}" th:object="${employee}" method="post">
+        Name: <input th:field="*{name}" />
+        Salary: <input th:field="*{salary}" />
+
+        Qualification:
+        <input th:field="*{qualification}" />
+
+        Company:
+        <select th:field="*{company}">
+            <option th:each="c : ${companies}" th:value="${c}" th:text="${c.name}">
+            </option>
+        </select>
+
+        <button type="submit">Save</button>
+    </form>
+
+    <a href="/employees">Back</a>
+</body>
+
+</html>

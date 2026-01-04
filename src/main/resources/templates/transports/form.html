@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<body>
+
+    <h2>Transport</h2>
+
+    <form th:action="@{/transports}" th:object="${transport}" method="post">
+        Destination: <input th:field="*{destination}" />
+        Price: <input th:field="*{price}" />
+
+        Client:
+        <select th:field="*{client}">
+            <option th:each="c : ${clients}" th:value="${c}" th:text="${c.name}">
+            </option>
+        </select>
+
+        Employee:
+        <select th:field="*{employee}">
+            <option th:each="e : ${employees}" th:value="${e}" th:text="${e.name}">
+            </option>
+        </select>
+
+        Vehicle:
+        <select th:field="*{vehicle}">
+            <option th:each="v : ${vehicles}" th:value="${v}" th:text="${v.type}">
+            </option>
+        </select>
+
+        <button type="submit">Save</button>
+    </form>
+
+    <a href="/transports">Back</a>
+</body>
+
+</html>

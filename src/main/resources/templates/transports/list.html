@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<body>
+
+    <h2>Transports</h2>
+
+    <a href="/transports/new">New transport</a>
+    <a href="/transports/export">Export</a>
+    <a href="/transports/import">Import</a>
+
+    <table border="1">
+        <tr>
+            <th>Destination</th>
+            <th>Price</th>
+        </tr>
+        <tr th:each="t : ${transports}">
+            <td th:text="${t.destination}"></td>
+            <td th:text="${t.price}"></td>
+        </tr>
+    </table>
+
+    <a href="/">Home</a>
+</body>
+
+</html>

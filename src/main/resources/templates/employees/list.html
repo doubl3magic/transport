@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<body>
+
+    <h2>Employees</h2>
+    <a href="/employees/new">New employee</a>
+
+    <table border="1">
+        <tr>
+            <th>Name</th>
+            <th>Qualification</th>
+            <th>Salary</th>
+        </tr>
+        <tr th:each="e : ${employees}">
+            <td th:text="${e.name}"></td>
+            <td th:text="${e.qualification}"></td>
+            <td th:text="${e.salary}"></td>
+        </tr>
+    </table>
+
+    <a href="/">Home</a>
+</body>
+
+</html>

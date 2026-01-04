@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<body>
+
+    <h2>Vehicles</h2>
+    <a href="/vehicles/new">New vehicle</a>
+
+    <table border="1">
+        <tr>
+            <th>Type</th>
+            <th>Company</th>
+        </tr>
+        <tr th:each="v : ${vehicles}">
+            <td th:text="${v.type}"></td>
+            <td th:text="${v.company.name}"></td>
+        </tr>
+    </table>
+
+    <a href="/">Home</a>
+</body>
+
+</html>

@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<body>
+
+    <h2>Company</h2>
+
+    <form th:action="@{/companies}" th:object="${company}" method="post">
+        Name: <input th:field="*{name}" /><br>
+
+        <button type="submit">Save</button>
+    </form>
+
+    <a href="/companies">Back</a>
+</body>
+
+</html>
