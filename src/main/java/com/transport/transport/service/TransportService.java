@@ -1,16 +1,19 @@
 package com.transport.transport.service;
 
+import com.transport.transport.model.Employee;
 import com.transport.transport.model.Transport;
 import com.transport.transport.repository.TransportRepository;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -38,18 +41,6 @@ public class TransportService {
         return repository.findByEndLocation(end_location);
     }
 
-    // OLD: server-side file export (optional to keep)
-    public void exportToFile() {
-        try (PrintWriter writer = new PrintWriter("transports.txt")) {
-            for (Transport t : repository.findAll()) {
-                writer.println(t.toString());
-            }
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    // NEW: download-friendly export (CSV bytes)
     public byte[] exportToBytes() {
         StringBuilder sb = new StringBuilder();
 
@@ -91,12 +82,57 @@ public class TransportService {
         return repository.revenuePerDriver();
     }
 
-    public List<Transport> getTransportsInPeriod(LocalDate start, LocalDate end) {
-        return repository.findTransportsInPeriod(start, end);
-    }
-
     public List<Transport> findAllSortedByDestination() {
         return repository.findAll(Sort.by("endLocation"));
     }
 
+    public long getTotalTransports() {
+        return repository.totalTransports();
+    }
+
+    public double getTotalIncomePaid() {
+        return repository.totalIncomePaid();
+    }
+
+    public Map<Employee, Long> getTransportsCountPerDriver() {
+        Map<Employee, Long> result = new LinkedHashMap<>();
+        for (Object[] row : repository.transportsCountPerDriver()) {
+            Employee driver = (Employee) row[0];
+            Long count = (Long) row[1];
+            result.put(driver, count);
+        }
+        return result;
+    }
+
+    public List<Object[]> getIncomePerDriver() {
+        return repository.incomePerDriver();
+    }
+
+    public double getIncomeForPeriod(LocalDate start, LocalDate end) {
+        return repository.incomeForPeriod(start, end);
+    }
+
+    public List<Object[]> getIncomePerDriverForPeriod(LocalDate start, LocalDate end) {
+        return repository.incomePerDriverForPeriod(start, end);
+    }
+
+    @Transactional
+    public int markPaidForClient(Long clientId) {
+        return repository.markAllPaidByClientId(clientId);
+    }
+
+    @Transactional
+    public void markAsPaid(Long transportId) {
+        Transport t = repository.findById(transportId)
+                .orElseThrow(() -> new RuntimeException("Transport not found"));
+
+        t.setPaid(true);
+        repository.save(t);
+
+        Long clientId = t.getClient().getId();
+        boolean hasUnpaid = repository.existsByClientIdAndPaidFalse(clientId);
+        if (!hasUnpaid) {
+            t.getClient().setPaid(true);
+        }
+    }
 }

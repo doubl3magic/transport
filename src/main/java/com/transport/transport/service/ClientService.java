@@ -2,8 +2,11 @@ package com.transport.transport.service;
 
 import com.transport.transport.model.Client;
 import com.transport.transport.repository.ClientRepository;
+import com.transport.transport.repository.TransportRepository;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -12,6 +15,7 @@ import java.util.List;
 public class ClientService {
 
     private final ClientRepository repository;
+    private final TransportRepository transportRepository;
 
     public List<Client> findAll() {
         return repository.findAll();
@@ -30,9 +34,17 @@ public class ClientService {
         repository.deleteById(id);
     }
 
-    public void markAsPaid(Long id) {
-        Client client = findById(id);
-        client.setPaid(true);
-        repository.save(client);
+    @Transactional
+    public void markAsPaid(Long clientId) {
+        Client client = repository.findById(clientId)
+                .orElseThrow(() -> new RuntimeException("Client not found"));
+
+        transportRepository.markAllPaidByClientId(clientId);
+
+        boolean hasUnpaid = transportRepository.existsByClientIdAndPaidFalse(clientId);
+        if (!hasUnpaid) {
+            client.setPaid(true);
+            repository.save(client);
+        }
     }
 }

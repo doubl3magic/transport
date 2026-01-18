@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<body>
+
+    <h2>Income for period</h2>
+
+    <p th:text="${income}"></p>
+    <h3>Income per driver for period (paid transports)</h3>
+    <ul>
+        <li th:each="row : ${driverIncomePeriod}">
+            <span th:text="${row[0].name}"></span>
+            - transports: <span th:text="${row[1]}"></span>
+            - income: <span th:text="${row[2]}"></span>
+        </li>
+    </ul>
+
+
+    <a href="/reports">Back</a>
+</body>
+
+</html>

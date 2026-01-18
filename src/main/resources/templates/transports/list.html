@@ -18,22 +18,27 @@
         <th>Vehicle</th>
         <th>Client</th>
         <th>Price</th>
+        <th>Paid</th>
+        <th>Actions</th>
     </tr>
 
     <tr th:each="t : ${transports}">
         <td th:text="${t.endLocation}"></td>
-
         <td th:text="${t.driver.name}"></td>
-
         <td th:text="${t.vehicle.registrationNumber}"></td>
-
         <td th:text="${t.client.name}"></td>
-
         <td th:text="${t.price}"></td>
+
+        <td th:text="${t.paid ? 'Yes' : 'No'}"></td>
+
+        <td>
+            <a th:if="${!t.paid}" th:href="@{/transports/pay/{id}(id=${t.id})}">
+                Mark paid
+            </a>
+            <span th:if="${t.paid}">—</span>
+        </td>
     </tr>
 </table>
 
-    <a href="/">Home</a>
-</body>
 
 </html>

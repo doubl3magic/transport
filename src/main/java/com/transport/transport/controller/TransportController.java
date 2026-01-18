@@ -76,4 +76,10 @@ public class TransportController {
         transportService.importFromFile();
         return "redirect:/transports";
     }
+
+    @GetMapping("/pay/{id}")
+    public String markTransportPaid(@PathVariable Long id) {
+        transportService.markAsPaid(id);
+        return "redirect:/transports";
+    }
 }

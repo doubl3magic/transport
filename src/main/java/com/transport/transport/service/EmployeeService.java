@@ -1,7 +1,6 @@
 package com.transport.transport.service;
 
 import com.transport.transport.model.Employee;
-import com.transport.transport.model.enums.Qualification;
 import com.transport.transport.repository.EmployeeRepository;
 import lombok.RequiredArgsConstructor;
 

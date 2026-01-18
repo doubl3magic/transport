@@ -21,6 +21,16 @@
         <button type="submit">Check</button>
     </form>
 
+    <h3>Income per driver (paid transports)</h3>
+    <ul>
+        <li th:each="row : ${driverIncome}">
+            <span th:text="${row[0].name}"></span>
+            - transports: <span th:text="${row[1]}"></span>
+            - income: <span th:text="${row[2]}"></span>
+        </li>
+    </ul>
+
+
     <a href="/">Home</a>
 </body>
 
