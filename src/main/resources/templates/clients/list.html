@@ -17,6 +17,7 @@
             <td th:text="${c.paid}"></td>
             <td>
                 <a th:href="@{/clients/pay/{id}(id=${c.id})}">Mark paid</a>
+                <a th:href="@{/clients/edit/{id}(id=${c.id})}">Edit</a>
                 <a th:href="@{/clients/delete/{id}(id=${c.id})}">Delete</a>
             </td>
         </tr>

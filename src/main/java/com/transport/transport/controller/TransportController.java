@@ -8,9 +8,13 @@ import com.transport.transport.service.VehicleService;
 
 import lombok.RequiredArgsConstructor;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 
 @Controller
 @RequestMapping("/transports")
@@ -25,11 +29,15 @@ public class TransportController {
     @GetMapping
     public String list(
             @RequestParam(required = false) String destination,
+            @RequestParam(required = false) String sort,
             Model model) {
 
         if (destination != null) {
             model.addAttribute("transports",
                     transportService.findByDestination(destination));
+        } else if ("destination".equals(sort)) {
+            model.addAttribute("transports",
+                    transportService.findAllSortedByDestination());
         } else {
             model.addAttribute("transports",
                     transportService.findAll());
@@ -54,9 +62,13 @@ public class TransportController {
     }
 
     @GetMapping("/export")
-    public String export() {
-        transportService.exportToFile();
-        return "redirect:/transports";
+    public ResponseEntity<byte[]> export() {
+        byte[] data = transportService.exportToBytes();
+
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=transports.csv")
+                .contentType(MediaType.parseMediaType("text/csv"))
+                .body(data);
     }
 
     @GetMapping("/import")

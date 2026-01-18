@@ -14,6 +14,10 @@
         <tr th:each="v : ${vehicles}">
             <td th:text="${v.type}"></td>
             <td th:text="${v.company.name}"></td>
+            <td>
+                <a th:href="@{/vehicles/edit/{id}(id=${v.id})}">Edit</a>
+                <a th:href="@{/vehicles/delete/{id}(id=${v.id})}">Delete</a>
+            </td>
         </tr>
     </table>
 

@@ -23,10 +23,20 @@ public class VehicleService {
     }
 
     public void save(Vehicle vehicle) {
-        repository.findByRegistrationNumber(vehicle.getRegistrationNumber())
-                .ifPresent(v -> {
-                    throw new IllegalArgumentException("Vehicle with this registration already exists");
-                });
+        String reg = vehicle.getRegistrationNumber();
+
+        if (vehicle.getId() == null) {
+            // CREATE
+            if (repository.existsByRegistrationNumber(reg)) {
+                throw new IllegalArgumentException("Vehicle with this registration already exists");
+            }
+        } else {
+            // UPDATE
+            if (repository.existsByRegistrationNumberAndIdNot(reg, vehicle.getId())) {
+                throw new IllegalArgumentException("Vehicle with this registration already exists");
+            }
+        }
+
         repository.save(vehicle);
     }
 

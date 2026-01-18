@@ -2,13 +2,15 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
-    <title>Vehicle Form</title>
+<h1 th:text="${vehicle.id != null ? 'Edit Vehicle' : 'Create Vehicle'}">Vehicle Form</h1>
 </head>
 
 <body>
     <h1>Create Vehicle</h1>
 
     <form th:action="@{/vehicles}" th:object="${vehicle}" method="post">
+
+        <input type="hidden" th:field="*{id}" />
 
         <label>Type:</label>
         <select th:field="*{type}" required>
@@ -28,11 +30,11 @@
         <br />
 
         <label>Company:</label>
-        <select th:field="*{company}" required>
-            <option value="">-- Select Company --</option>
-            <option th:each="comp : ${companies}" th:value="${comp.id}" th:text="${comp.name}">
-            </option>
-        </select>
+            <select th:field="*{company.id}" required>
+                <option value="">-- Select Company --</option>
+                <option th:each="comp : ${companies}" th:value="${comp.id}" th:text="${comp.name}">
+                </option>
+            </select>
         <br />
 
         <button type="submit">Save</button>

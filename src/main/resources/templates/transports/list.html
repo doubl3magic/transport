@@ -8,17 +8,30 @@
     <a href="/transports/new">New transport</a>
     <a href="/transports/export">Export</a>
     <a href="/transports/import">Import</a>
+    <a href="/transports?sort=destination">Sort by destination</a>
 
-    <table border="1">
-        <tr>
-            <th>Destination</th>
-            <th>Price</th>
-        </tr>
-        <tr th:each="t : ${transports}">
-            <td th:text="${t.endLocation}"></td>
-            <td th:text="${t.price}"></td>
-        </tr>
-    </table>
+
+<table border="1">
+    <tr>
+        <th>Destination</th>
+        <th>Driver</th>
+        <th>Vehicle</th>
+        <th>Client</th>
+        <th>Price</th>
+    </tr>
+
+    <tr th:each="t : ${transports}">
+        <td th:text="${t.endLocation}"></td>
+
+        <td th:text="${t.driver.name}"></td>
+
+        <td th:text="${t.vehicle.registrationNumber}"></td>
+
+        <td th:text="${t.client.name}"></td>
+
+        <td th:text="${t.price}"></td>
+    </tr>
+</table>
 
     <a href="/">Home</a>
 </body>

@@ -20,15 +20,11 @@ public class EmployeeController {
     @GetMapping
     public String list(
             @RequestParam(required = false) String qualification,
-            @RequestParam(required = false) String salary,
+            @RequestParam(required = false) String sort,
             Model model) {
 
-        if (qualification != null) {
-            model.addAttribute("employees",
-                    employeeService.findByQualification(qualification));
-        } else if (salary != null) {
-            model.addAttribute("employees",
-                    employeeService.findSortedBySalary());
+        if (sort != null) {
+            model.addAttribute("employees", employeeService.findSorted(sort));
         } else {
             model.addAttribute("employees", employeeService.findAll());
         }
@@ -39,6 +35,13 @@ public class EmployeeController {
     @GetMapping("/new")
     public String createForm(Model model) {
         model.addAttribute("employee", new Employee());
+        model.addAttribute("companies", companyService.findAll());
+        return "employees/form";
+    }
+
+    @GetMapping("/edit/{id}")
+    public String editForm(@PathVariable Long id, Model model) {
+        model.addAttribute("employee", employeeService.findById(id));
         model.addAttribute("companies", companyService.findAll());
         return "employees/form";
     }

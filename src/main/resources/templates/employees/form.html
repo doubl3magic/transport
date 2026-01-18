@@ -1,14 +1,12 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 
-<head>
-    <title>Employee Form</title>
-</head>
-
 <body>
-    <h1>Create Employee</h1>
+    <h1 th:text="${employee.id != null ? 'Edit Employee' : 'Create Employee'}">Employee Form</h1>
 
     <form th:action="@{/employees}" th:object="${employee}" method="post">
+
+        <input type="hidden" th:field="*{id}" />
 
         <label>Name:</label>
         <input type="text" th:field="*{name}" required />
@@ -19,9 +17,9 @@
         <br />
 
         <label>Company:</label>
-        <select th:field="*{company}" required>
+        <select th:field="*{company.id}" required>
             <option value="">-- Select Company --</option>
-            <option th:each="comp : ${companies}" th:value="${comp.id}" th:text="${comp.id}">
+            <option th:each="comp : ${companies}" th:value="${comp.id}" th:text="${comp.name}">
             </option>
         </select>
         <br />

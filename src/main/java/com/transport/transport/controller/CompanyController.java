@@ -4,9 +4,11 @@ import com.transport.transport.model.Company;
 import com.transport.transport.service.CompanyService;
 import lombok.RequiredArgsConstructor;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 @Controller
 @RequestMapping("/companies")
@@ -45,7 +47,9 @@ public class CompanyController {
 
     @GetMapping("/edit/{id}")
     public String edit(@PathVariable Long id, Model model) {
-        model.addAttribute("company", companyService.findById(id));
+        Company company = companyService.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+        model.addAttribute("company", company);
         return "companies/form";
     }
 

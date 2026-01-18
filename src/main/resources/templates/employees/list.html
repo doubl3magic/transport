@@ -4,18 +4,28 @@
 <body>
 
     <h2>Employees</h2>
+
     <a href="/employees/new">New employee</a>
+
+    <a href="/employees?sort=name">Sort by name</a>
+    <a href="/employees?sort=qualification">Sort by qualification</a>
+    <a href="/employees?sort=salary">Sort by salary</a>
 
     <table border="1">
         <tr>
             <th>Name</th>
             <th>Qualification</th>
             <th>Salary</th>
+            <th>Actions</th>
         </tr>
         <tr th:each="e : ${employees}">
             <td th:text="${e.name}"></td>
             <td th:text="${e.qualification}"></td>
             <td th:text="${e.salary}"></td>
+            <td>
+                <a th:href="@{/employees/edit/{id}(id=${e.id})}">Edit</a>
+                <a th:href="@{/employees/delete/{id}(id=${e.id})}">Delete</a>
+            </td>
         </tr>
     </table>
 

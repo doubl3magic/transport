@@ -33,11 +33,11 @@ public class EmployeeService {
         repository.deleteById(id);
     }
 
-    public List<Employee> findByQualification(String qualification) {
-        return repository.findByQualification(Qualification.valueOf(qualification));
+    public List<Employee> findSorted(String sortField) {
+        if (!List.of("name", "qualification", "salary").contains(sortField)) {
+            sortField = "name";
+        }
+        return repository.findAll(Sort.by(sortField).ascending());
     }
 
-    public List<Employee> findSortedBySalary() {
-        return repository.findAll(Sort.by("salary").descending());
-    }
 }

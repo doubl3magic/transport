@@ -4,7 +4,6 @@ import com.transport.transport.model.Client;
 import com.transport.transport.service.ClientService;
 import com.transport.transport.service.CompanyService;
 import org.springframework.ui.Model;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -42,7 +41,9 @@ public class ClientController {
 
     @GetMapping("/edit/{id}")
     public String edit(@PathVariable Long id, Model model) {
-        model.addAttribute("client", clientService.findById(id));
+        Client client = clientService.findById(id);
+        model.addAttribute("client", client);
+        model.addAttribute("companies", companyService.findAll());
         return "clients/form";
     }
 
